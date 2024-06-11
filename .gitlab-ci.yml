@@ -1,0 +1,30 @@
+default:
+  interruptible: false
+  image: python:latest
+  before_script:
+    - python --version ; pip --version
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  script:
+    - python -m pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    paths:
+      - report.xml
+    reports:
+      junit: report.xml
+
+deploy:
+  stage: deploy
+  script: 
+    - echo "Deploy hook activated!"
+    - curl https://api.render.com/deploy/srv-cn4vqcv109ks73f092jg?key=xqSu3TJ-T9o

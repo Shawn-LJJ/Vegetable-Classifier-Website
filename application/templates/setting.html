@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="my-5">
+        Account setting
+    </h1>
+    {% if errors %}
+        <div class="mx-auto mb-3" style="color: red;" id="error">
+            {% for error in errors %}
+                {{ error[0] }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if success %}
+        <div class="mx-auto mb-3" style="color: rgb(21, 94, 66);" id="success">
+            {{ success }}
+        </div>
+    {% endif %}
+    {% for form in forms %}
+    <div class="mx-auto my-4" style="border: 2px solid black; max-width: 512px">
+        <form name="change{{ 'Email' if loop.index == 1 else 'Password'}}" action="/change{{ 'Email' if loop.index == 1 else 'Password'}}" method="post">
+            <table class="table-input">
+            <tbody>
+                {% for field in form %}
+                {% if field.type != "SubmitField" and field.label.text != "CSRF Token" %}
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ field.label }}:</td>
+                    <td class="ballz" style="text-align: start;">{{ field }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <div>
+                {{ form.submit(class_="btn btn-primary mb-3")}}
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+    <div class="mx-auto my-3">
+        <form name="deleteUser" action="/delete_user" method="post">
+            <input type="submit" class="btn btn-danger" value="Delete account"/>
+        </form>
+    </div>
+
+
+{% endblock %}

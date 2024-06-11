@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if error %}
+        <div class="mx-auto my-3" style="color: red;" id="error">
+            {{ error }}
+        </div>
+    {% else %}
+        <img src="../static/temp.png" id="img" class="mt-5" width="200"/>
+        <div class="mx-auto my-4" style="max-width: 768px">
+            <table class="table-input">
+            <tbody>
+                {% for text_group in text_groups %}
+                <tr>
+                    {% for label, value in text_group.items() %}
+                    <td class="ballz" style="text-align: end;">{{ label }}:</td>
+                    <td class="ballz" style="text-align: start;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            <div class="my-2">
+                <form name="delete_history" action="/delete_history/{{ history_id }}" method="post">
+                    <input type="submit" class="btn btn-danger" value="Delete result"/>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

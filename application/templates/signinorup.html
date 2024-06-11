@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="my-5">
+        {% if title == "Signup" %}
+            Sign up
+        {% else %}
+            Sign in
+        {% endif %}
+    </h1>
+    {% if errors %}
+        <div class="mx-auto mb-3" style="color: red;" id="error">
+            {% for error in errors %}
+                {{ error[0] }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="mx-auto" style="border: 2px solid black; max-width: 512px">
+        <form name="{{ 'signup' if title == 'Signup' else 'signin'}}" action="/{{ 'signup' if title == 'Signup' else 'signin' }}" method="post">
+            <table class="table-input">
+            <tbody>
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ form.email.label }}:</td>
+                    <td class="ballz" style="text-align: start;">{{ form.email }}</td>
+                </tr>
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ form.password.label }}:</td>
+                    <td class="ballz" style="text-align: start;">{{ form.password }}</td>
+                </tr>
+                {% if title == "Signup" %}
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ form.confirm.label }}:</td>
+                    <td class="ballz" style="text-align: start;">{{ form.confirm }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+            </table>
+            <div>
+                {{ form.submit(class_="btn btn-primary my-3")}}
+            </div>
+        </form>
+    </div>
+    <div class="my-4">
+        {% if title == "Signup" %}
+            <p>Already have an account? <a href="{{ url_for('routes.get_signin') }}">Sign in</a></p>
+        {% else %}
+            <p>Don't have an account yet? <a href="{{ url_for('routes.get_signup') }}">Sign up</a></p>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="my-5">
+        Search history
+    </h1>
+    {% if errors %}
+        <div class="mx-auto mb-3" style="color: red;" id="error">
+            {% for error in errors %}
+                {{ error[0] }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="mx-auto" style="border: 2px solid black; max-width: 1024px">
+        <form name="search" action="/search" method="post" class="row p-2">
+            {% for field in form %}
+                {% if field.type != "SubmitField" and field.label.text != "CSRF Token" %}
+                    <div class="col-md-3 my-1">
+                        {{ field.label}}
+                        {{ field }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="col-md-3 my-auto">
+                {{ form.submit(class_="btn btn-primary")}}
+            </div>
+        </form>
+    </div>
+    <h3 class="my-4">
+        Results:
+    </h3>
+    {% if results and errors is none %}
+        {% for result in results %}
+            <div class="mx-auto curve-border row p-3 mb-4" style="max-width: 1024px">
+                <div class="col-md-4 my-auto">
+                    <img src="{{ result[0] }}" alt="why cannot access image" width="128px">
+                </div>
+                <div class="col-md-2 my-auto">
+                    Model used: <br>
+                    {{ result[1] }} pixels model
+                </div>
+                <div class="col-md-2 my-auto">
+                    Predicted vegetable: <br>
+                    {{ result[2] }}
+                </div>
+                <div class="col-md-2 my-auto">
+                    Probability: <br>
+                    {{ result[3] }}%
+                </div>
+                <div class="col-md-1 my-auto">
+                    <form name="get_history" action="/history/{{ result[4] }}" method="get">
+                        <input type="submit" class="btn btn-primary" value="View"/>
+                    </form>
+                </div>
+                <div class="col-md-1 my-auto">
+                    <form name="delete_history" action="/delete_history/{{ result[4] }}" method="post">
+                        <input type="submit" class="btn btn-danger" value="Delete"/>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% elif results is not none and errors is none %}
+    <h5 style="color: red;">
+        No results
+    </h5>
+    {% endif %}
+
+{% endblock %}

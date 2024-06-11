@@ -1,0 +1,40 @@
+html, body {
+    height: auto;
+    position: relative;
+    margin: 0px;
+    background-color: #59BD69;
+}
+
+div.curve-border {
+    border-radius: 30px;
+    border: 2px solid black;
+}
+
+div.ellipse-border {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-width: 768px;
+    border-radius: 50%;
+    background-color: #4281A4;
+}
+
+table.table-input {
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+td.ballz {
+    width: 50%;
+    padding: 10px;
+}
+
+footer {
+    text-align: center;
+    height: 64;
+    color: white;
+    background-color: #494949;
+    margin-top: 50px;
+    padding: 20px;
+    bottom: 0px;
+}

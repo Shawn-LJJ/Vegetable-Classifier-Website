@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2 class="my-5">Welcome to the vegetable predictor website!</h2>
+    <p class="mx-auto mb-5" style="max-width: 768px;">
+        This website allows you to upload an image of a vegetable and it will predict what the vegetable is.
+        All you need to do is select which model you want to use, upload an image, and press the predict button!
+        The website will send an image to the appropriate Convolutonal Neural Network (CNN) model, make a prediction, and return the result.
+        The models are trained to differentiate 15 types of vegetables with over 90% accuracy!
+        The first model takes in an image of 128 by 128 pixel as input, while the second model takes in 31 by 31 pixels.<br><br>
+        Image upload guidelines:<br>
+        1. Image must be exactly a square, for example (512 by 512 pixels). Use any cropping software if necessary.<br>
+        2. Uploading an image larger than the model's input size is fine, we will perform the downscaling for you.
+        However, to ensure information of the image do not lose too much, the maximum image size allowed will be 512 pixels wide/height. <br>
+        3. We can also perform upscaling for you if your image is smaller than the model's input size, but a huge change will not add new information.
+        So the minimum image size allowed will be 31 pixels wide/height. <br><br>
+        Note: If you want to save all your images and the result, please sign up for an account so that all your past predictions will be saved and be accessible!
+    </p>
+    {% if errors %}
+        <div class="mx-auto mb-3" style="color: red;">
+            {% for error in errors %}
+                {{ error[0] }}<br>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="mx-auto" style="border: 2px solid black; max-width: 768px">
+        <h3 class="my-2">
+            Prediction: <br>
+            {% if prediction %}
+                {{ prediction }}
+            {% else %}
+                --
+            {% endif %}
+        </h3>
+        <form name="predictBallz" action="/predict" method="post" enctype="multipart/form-data">
+            <table class="table-input">
+            <tbody>
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ form.model.label }}</td>
+                    <td class="ballz" style="text-align: start;">{{ form.model }}</td>
+                </tr>
+                <tr>
+                    <td class="ballz" style="text-align: end;">{{ form.image.label }}</td>
+                    <td class="ballz" style="text-align: start;">{{ form.image(onchange_="loadImg(event)") }}</td>
+                </tr>
+            </tbody>
+            </table>
+            <!-- display image after user uploads-->
+            <div>
+                <img width="200" id="rasputin"/>
+            </div>
+            <div>
+                {{ form.submit(class_="btn btn-primary my-3")}}
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
